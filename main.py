@@ -15,56 +15,56 @@ from app.rag.rag_engine import (
 import re
 
 # Common technical skills database
-SKILLS_DB = [
+# SKILLS_DB = [
 
-    # Programming
-    "python",
-    "java",
-    "c++",
-    "javascript",
-    "sql",
+#     # Programming
+#     "python",
+#     "java",
+#     "c++",
+#     "javascript",
+#     "sql",
 
-    # ML / AI
-    "machine learning",
-    "deep learning",
-    "tensorflow",
-    "pytorch",
-    "nlp",
-    "transformers",
-    "llm",
-    "genai",
+#     # ML / AI
+#     "machine learning",
+#     "deep learning",
+#     "tensorflow",
+#     "pytorch",
+#     "nlp",
+#     "transformers",
+#     "llm",
+#     "genai",
 
-    # Data
-    "pandas",
-    "numpy",
-    "matplotlib",
-    "seaborn",
+#     # Data
+#     "pandas",
+#     "numpy",
+#     "matplotlib",
+#     "seaborn",
 
-    # Backend
-    "fastapi",
-    "flask",
-    "django",
+#     # Backend
+#     "fastapi",
+#     "flask",
+#     "django",
 
-    # Cloud / DevOps
-    "aws",
-    "docker",
-    "kubernetes",
-    "jenkins",
-    "ansible",
-    "linux",
+#     # Cloud / DevOps
+#     "aws",
+#     "docker",
+#     "kubernetes",
+#     "jenkins",
+#     "ansible",
+#     "linux",
 
-    # Databases
-    "mysql",
-    "mongodb",
-    "postgresql",
+#     # Databases
+#     "mysql",
+#     "mongodb",
+#     "postgresql",
 
-    # GenAI Tools
-    "langchain",
-    "langgraph",
-    "chromadb",
-    "faiss",
-    "rag"
-]
+#     # GenAI Tools
+#     "langchain",
+#     "langgraph",
+#     "chromadb",
+#     "faiss",
+#     "rag"
+# ]
 
 
 def extract_skills(text):
@@ -73,15 +73,15 @@ def extract_skills(text):
 
     found_skills = []
 
-    for skill in SKILLS_DB:
+    # for skill in SKILLS_DB:
 
-        pattern = r"\b" + re.escape(skill) + r"\b"
+    #     pattern = r"\b" + re.escape(skill) + r"\b"
 
-        if re.search(pattern, text):
+    #     if re.search(pattern, text):
 
-            found_skills.append(skill)
+    #         found_skills.append(skill)
 
-    return list(set(found_skills))
+    # return list(set(found_skills))
 
 
 def skill_gap_analysis(resume_text, jd_text):
@@ -111,26 +111,92 @@ st.set_page_config(
     layout="wide"
 )
 
+# st.title("🚀 AI Career Copilot")
+
+# st.write("Your AI-powered career assistant")
+
 st.title("🚀 AI Career Copilot")
 
-st.write("Your AI-powered career assistant")
+# st.markdown("""
+# ### Your Personal AI Career Assistant
 
-menu = st.sidebar.selectbox(
-    "Select Feature",
+# ✅ Resume Analysis
+
+# ✅ ATS Optimization
+
+# ✅ Skill Gap Detection
+
+# ✅ Interview Preparation
+
+# ✅ Career Roadmap Generation
+
+# ✅ AI Career Chatbot
+
+# ✅ RAG Knowledge Base
+# """)
+
+st.sidebar.title("🚀 AI Career Copilot")
+
+st.sidebar.markdown("---")
+
+menu = st.sidebar.radio(
+    "Choose Feature",
     [
-        "Home",
-        "Resume Analyzer",
-        "Job Search",
-        "Interview Prep",
-        "Career Chatbot",
-        "RAG Knowledge Base"
+        "🏠 Home",
+        "📄 Resume Analyzer",
+        "💼 Job Search",
+        "🎯 Interview Prep",
+        "🤖 Career Chatbot",
+        "📚 RAG Knowledge Base"
     ]
 )
 
-if menu == "Home":
-    st.header("Welcome to AI Career Copilot")
+st.sidebar.markdown("---")
 
-elif menu == "Resume Analyzer":
+st.sidebar.success(
+    "Built with LangGraph + Gemini + FAISS"
+)
+
+if menu == "🏠 Home":
+    st.header("🚀 Welcome to AI Career Copilot")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric(
+            "Resume Analysis",
+            "AI Powered"
+        )
+
+    with col2:
+        st.metric(
+            "ATS Scoring",
+            "Semantic Matching"
+        )
+
+    with col3:
+        st.metric(
+            "Interview Prep",
+            "GenAI Based"
+        )
+
+    st.markdown("---")
+
+    st.info("""
+    🎯 Upload your resume
+
+    🎯 Check ATS compatibility
+
+    🎯 Find missing skills
+
+    🎯 Generate interview questions
+
+    🎯 Chat with AI
+
+    🎯 Build your AI career roadmap
+    """)
+
+elif menu == "📄 Resume Analyzer":
     st.header("📄 Resume Analyzer")
 
     uploaded_file = st.file_uploader(
@@ -258,10 +324,10 @@ elif menu == "Resume Analyzer":
 
 
 
-elif menu == "Job Search":
+elif menu == "💼 Job Search":
     st.header("Job Search")
 
-elif menu == "Interview Prep":
+elif menu == "🎯 Interview Prep":
     st.header("🎯 AI Interview Preparation")
 
     role = st.text_input(
@@ -298,9 +364,13 @@ elif menu == "Interview Prep":
                 st.write(result)
     
 
-elif menu == "Career Chatbot":
+elif menu == "🤖 Career Chatbot":
 
-    st.title("🤖 AI Career Chatbot")
+    st.title("🤖 AI Career Coach")
+
+    st.caption(
+        "Ask anything about AI, ML, Resume, Interview, Career Growth."
+    )
 
     user_query = st.text_area(
         "Ask your career question"
@@ -313,7 +383,7 @@ elif menu == "Career Chatbot":
             response = career_chat(user_query)
 
             st.write(response)
-elif menu == "RAG Knowledge Base":
+elif menu == "📚 RAG Knowledge Base":
 
     st.title("📚 RAG Knowledge Base")
 
@@ -327,6 +397,9 @@ elif menu == "RAG Knowledge Base":
         text = extract_text_from_pdf(pdf)
 
         vectorstore = create_vectorstore(text)
+        st.success(
+        "Knowledge Base Created Successfully ✅"
+            )
 
         question = st.text_input(
             "Ask a question"

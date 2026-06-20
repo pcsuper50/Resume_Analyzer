@@ -18,3 +18,4 @@ pyttsx3
 APScheduler
 langchain-text-splitters
 langchain-huggingface
+langgraph
