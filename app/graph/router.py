@@ -13,9 +13,9 @@ def route_task(state):
 
     elif task == "interview":
         return "interview_agent"
-    
+
     elif task == "roadmap":
-        return "career_roadmap_agent"
+        return "roadmap_agent"
 
     else:
         return "rag_agent"

@@ -1,29 +1,23 @@
-from app.utils.gemini_helper import get_gemini_response
-
 def planner_agent(state):
 
-    query = state["query"]
+    query = state["query"].lower()
 
-    prompt = f"""
-You are an AI Career Planner.
+    if "resume" in query:
+        task = "resume"
 
-User Query:
-{query}
+    elif "ats" in query:
+        task = "ats"
 
-Available Agents:
+    elif "skill" in query:
+        task = "skill_gap"
 
-resume
-ats
-skill_gap
-interview
-roadmap
-career
+    elif "interview" in query:
+        task = "interview"
 
-Return ONLY a comma separated list of required agents.
-"""
+    elif "roadmap" in query:
+        task = "roadmap"
 
-    task = get_gemini_response(prompt)
+    else:
+        task = "career"
 
-    return {
-        "task": task.strip().lower()
-    }
+    return {"task": task}

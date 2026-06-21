@@ -13,5 +13,15 @@ model = genai.GenerativeModel(
 )
 
 def get_gemini_response(prompt):
-    response = model.generate_content(prompt)
-    return response.text
+
+    try:
+
+        response = model.generate_content(
+            prompt
+        )
+
+        return response.text
+
+    except Exception as e:
+
+        return f"Gemini Error: {str(e)}"

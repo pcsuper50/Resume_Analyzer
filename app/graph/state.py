@@ -30,3 +30,5 @@ class CareerState(TypedDict):
     rag_answer: str
     
     career_roadmap: str
+
+    roadmap: str

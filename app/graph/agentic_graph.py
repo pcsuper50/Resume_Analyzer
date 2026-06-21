@@ -9,7 +9,8 @@ from app.agents.ats_agent import ats_agent
 from app.agents.skill_gap_agent import skill_gap_agent
 from app.agents.interview_agent import interview_agent
 from app.agents.rag_agent import rag_agent
-from app.agents.career_roadmap_agent import career_roadmap_agent
+#from app.agents.career_roadmap_agent import career_roadmap_agent
+from app.agents.roadmap_agent import roadmap_agent
 
 graph = StateGraph(CareerState)
 
@@ -24,9 +25,14 @@ graph.add_node("skill_gap_agent", skill_gap_agent)
 
 graph.add_node("interview_agent", interview_agent)
 
+# graph.add_node(
+#     "career_roadmap_agent",
+#     career_roadmap_agent
+# )
+
 graph.add_node(
-    "career_roadmap_agent",
-    career_roadmap_agent
+    "roadmap_agent",
+    roadmap_agent
 )
 
 graph.add_node("rag_agent", rag_agent)
@@ -43,7 +49,7 @@ graph.add_conditional_edges(
         "ats_agent": "ats_agent",
         "skill_gap_agent": "skill_gap_agent",
         "interview_agent": "interview_agent",
-        "career_roadmap_agent": "career_roadmap_agent",
+        "roadmap_agent": "roadmap_agent",
         "rag_agent": "rag_agent",
         
     }
@@ -58,11 +64,16 @@ graph.add_edge("skill_gap_agent", END)
 
 graph.add_edge("interview_agent", END)
 
-graph.add_edge(
-    "career_roadmap_agent",
-    END
-)
+# graph.add_edge(
+#     "career_roadmap_agent",
+#     END
+# )
 
 graph.add_edge("rag_agent", END)
+
+graph.add_edge(
+    "roadmap_agent",
+    END
+)
 
 agentic_graph = graph.compile()
