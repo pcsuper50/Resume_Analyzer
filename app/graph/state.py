@@ -1,11 +1,6 @@
 from typing import TypedDict
 
-
 class CareerState(TypedDict):
-
-    query: str
-
-    task: str
 
     resume: str
 
@@ -15,20 +10,18 @@ class CareerState(TypedDict):
 
     experience: str
 
+    query: str
+
+    task: str
+
     resume_analysis: str
 
     ats_score: float
 
     skill_gap: dict
 
+    roadmap: str
+
     interview_questions: str
 
-    vectorstore: object
-
-    question: str
-
-    rag_answer: str
-    
-    career_roadmap: str
-
-    roadmap: str
+    final_report: str

@@ -19,3 +19,4 @@ APScheduler
 langchain-text-splitters
 langchain-huggingface
 langgraph
+reportlab

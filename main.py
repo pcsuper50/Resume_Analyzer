@@ -12,6 +12,8 @@ from app.rag.rag_engine import (
     create_vectorstore,
     ask_rag
 )
+from app.graph.career_workflow import career_workflow
+from app.utils.pdf_report import generate_pdf_report
 import re
 
 # Common technical skills database
@@ -117,37 +119,37 @@ st.set_page_config(
 
 st.title("🚀 AI Career Copilot")
 
-# st.markdown("""
-# ### Your Personal AI Career Assistant
+st.markdown("""
+Your Personal AI Career Assistant
 
-# ✅ Resume Analysis
+✅ Resume Analysis
 
-# ✅ ATS Optimization
+✅ ATS Optimization
 
-# ✅ Skill Gap Detection
+✅ Skill Gap Detection
 
-# ✅ Interview Preparation
+✅ Interview Preparation
 
-# ✅ Career Roadmap Generation
+✅ Career Roadmap Generation
 
-# ✅ AI Career Chatbot
+✅ AI Career Chatbot
 
-# ✅ RAG Knowledge Base
-# """)
+✅ RAG Knowledge Base
+""")
 
 st.sidebar.title("🚀 AI Career Copilot")
 
 st.sidebar.markdown("---")
 
-menu = st.sidebar.radio(
-    "Choose Feature",
+menu = st.sidebar.selectbox(
+    "Select Feature",
     [
-        "🏠 Home",
-        "📄 Resume Analyzer",
-        "💼 Job Search",
-        "🎯 Interview Prep",
-        "🤖 Career Chatbot",
-        "📚 RAG Knowledge Base"
+        "Home",
+        "Resume Analyzer",
+        "Interview Prep",
+        "Career Chatbot",
+        "RAG Knowledge Base",
+        "Career Report (LangGraph)"
     ]
 )
 
@@ -341,7 +343,7 @@ elif menu == "🎯 Interview Prep":
             "Fresher",
             "1 Year",
             "2 Years",
-            "3 Years",
+            "3+ Years",
             "5+ Years"
         ]
     )
@@ -413,3 +415,136 @@ elif menu == "📚 RAG Knowledge Base":
             )
 
             st.write(answer)
+
+elif menu == "Career Report (LangGraph)":
+
+    st.title("🚀 AI Career Report")
+
+    uploaded_file = st.file_uploader(
+        "Upload Resume",
+        type=["pdf"]
+    )
+
+    job_description = st.text_area(
+        "Paste Job Description"
+    )
+
+    role = st.text_input(
+        "Target Role",
+        value="AI ML Engineer"
+    )
+
+    experience = st.selectbox(
+        "Experience",
+        [
+            "Fresher",
+            "1 Year",
+            "2 Years",
+            "3 Years",
+            "5+ Years"
+        ]
+    )
+
+    if st.button("Generate Complete Career Report"):
+
+        if uploaded_file is None:
+
+            st.warning("Please upload resume")
+
+        elif job_description.strip() == "":
+
+            st.warning("Please enter job description")
+
+        else:
+
+            with st.spinner(
+                "Generating Career Report..."
+            ):
+
+                resume_text = extract_resume_text(
+                    uploaded_file
+                )
+
+                result = career_workflow.invoke({
+
+                    "resume": resume_text,
+
+                    "job_description":
+                    job_description,
+
+                    "role": role,
+
+                    "experience":
+                    experience
+
+                })
+
+                st.success(
+                    "Career Report Generated"
+                )
+
+                st.subheader(
+                    "📄 Resume Analysis"
+                )
+
+                st.write(
+                    result["resume_analysis"]
+                )
+
+                st.subheader(
+                    "🎯 ATS Score"
+                )
+
+                st.metric(
+                    "ATS Score",
+                    f"{result['ats_score']}%"
+                )
+
+                st.subheader(
+                    "📌 Skill Gap Analysis"
+                )
+
+                st.write(
+                    result["skill_gap"]
+                )
+
+                st.subheader(
+                    "🗺️ Learning Roadmap"
+                )
+
+                st.write(
+                    result["roadmap"]
+                )
+
+                st.subheader(
+                    "🎤 Interview Questions"
+                )
+
+                st.write(
+                    result["interview_questions"]
+                )
+
+                st.subheader(
+                    "📋 Final Career Report"
+                )
+
+                st.write(
+                    result["final_report"]
+                )
+
+                pdf_file = generate_pdf_report(
+                result,
+                "career_report.pdf"
+                )
+
+                with open(
+                    pdf_file,
+                    "rb"
+                ) as file:
+
+                   st.download_button(
+                        label="📥 Download PDF Report",
+                        data=file,
+                        file_name="career_report.pdf",
+                        mime="application/pdf"
+                    )

@@ -2,7 +2,7 @@ from app.utils.gemini_helper import get_gemini_response
 
 def roadmap_agent(state):
 
-    role = state.get("role", "")
+    role = state.get("role", "AI ML Engineer")
 
     missing_skills = state.get(
         "skill_gap",
