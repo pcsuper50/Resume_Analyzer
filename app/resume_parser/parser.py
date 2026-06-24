@@ -1,4 +1,5 @@
-from PyPDF2 import PdfReader
+#from PyPDF2 import PdfReader
+from pypdf import PdfReader
 
 def extract_resume_text(pdf_file):
 
